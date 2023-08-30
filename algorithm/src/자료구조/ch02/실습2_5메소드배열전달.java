@@ -33,6 +33,7 @@ public class 실습2_5메소드배열전달 {
 	static boolean findValue(int []items, int value) {
 		//items[]에 value 값이 있는지를 찾는 알고리즘 구현
 		
+		
 		return false;
 	}
 
