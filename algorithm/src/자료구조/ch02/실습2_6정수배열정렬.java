@@ -14,15 +14,15 @@ public class 실습2_6정수배열정렬 {
 //		/*
 		sortData(data);
 //		Arrays.sort(data);
-		System.out.println();
+		System.out.println("\nsort");
 		showData(data);
 //		*/
 		reverse(data);//역순으로 재배치 - 정렬 아님 
-		System.out.println();
+		System.out.println(); //이걸 정렬안한 데이터를 역순으로 배치해야하는디
 		showData(data);
 		
 		reverseSort(data);//역순으로 재배치 - 정렬 아님 
-		System.out.println();
+		System.out.println("\nrsort");
 		showData(data);
 	}
 	static void inputData(int []data) {
