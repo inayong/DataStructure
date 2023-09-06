@@ -54,7 +54,9 @@ public class Test_실습3_4정수배열이진탐색 {
 		int key = 33;
 		int result = linearSearch(data, key);
 		System.out.println();
-		System.out.println("\nlinearSearch(): result = " + result);
+		System.out.println("\nkey = " + key);
+		System.out.println();
+		System.out.println("linearSearch(): result = " + result);
 
 		key = 3;
 		result = binarySearch(data, key);
