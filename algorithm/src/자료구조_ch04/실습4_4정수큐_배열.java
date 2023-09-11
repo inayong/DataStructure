@@ -111,6 +111,13 @@ class IntQueue2 {
 //--- 큐 안의 모든 데이터를 프런트 → 리어 순으로 출력 ---//
 	public void dump() {
 		//구현
+		if (num <= 0)
+			System.out.println("큐가 비어 있습니다.");
+		else {
+			for (int i = 0; i < num; i++)
+				System.out.print(que[(i + front) % capacity] + " ");
+			System.out.println();
+		}
 	}
 }
 

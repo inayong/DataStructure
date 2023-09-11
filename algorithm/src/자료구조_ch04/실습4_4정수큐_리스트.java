@@ -67,7 +67,7 @@ class Queue2 {
 		rear--;
 		if (front == capacity)
 			front = 0;
-		return capacity;
+		return front ;
 	}
 
 //--- 큐에서 데이터를 피크(프런트 데이터를 들여다봄) ---//
@@ -118,6 +118,13 @@ class Queue2 {
 //--- 큐 안의 모든 데이터를 프런트 → 리어 순으로 출력 ---//
 	public void dump() {
 		// 구현
+//		if (num <= 0)
+//			System.out.println("큐가 비어 있습니다.");
+//		else {
+//			for (int i = 0; i < num; i++)
+//				System.out.println(que[(i + front) % capacity] + " ");
+//			System.out.println();
+//		}
 	}
 }
 
