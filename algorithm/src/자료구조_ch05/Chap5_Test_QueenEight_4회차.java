@@ -1,5 +1,7 @@
 package 자료구조_ch05;
 
+import 자료구조_ch04.Point2;
+
 //https://www.geeksforgeeks.org/n-queen-problem-backtracking-3/?ref=lbp
 //N Queen problem / backtracking
 /*
@@ -19,6 +21,10 @@ class Point {
 		ix = x;
 		iy = y;
 	}
+	@Override
+	public String toString() {
+		return "<" + ix + ", " + iy + ">";
+	}
 
 	public int getX() {
 		return ix;
@@ -34,6 +40,12 @@ class Point {
 	public void setY(int y) {
 		iy = y;
 	}
+//	@Override
+//	public boolean equals(Object p) {
+//		if ((this.ix == ((Point)p).ix) && (this.iy == ((Point)p).iy))
+//			return true;
+//		else return false;
+//	}
 }
 
 class Stack3 {
@@ -140,10 +152,12 @@ public class Chap5_Test_QueenEight_4회차 {
 		int ix = 0, iy = 0;
 		Stack3 st = new Stack3(10);
 		Point p = new Point(ix, iy);
-		d[ix][iy] = 1; count++;
+		d[ix][iy] = 1; // (ix,iy)에 queen을 배치
+		count++;//퀸 갯수를 증가
 		st.push(p);
 		while (count < 8) {
-			ix++;		int cy = 0;
+			ix++; //다음 행에 퀸을 시도	
+			int cy = 0; // 다음 행의 1열부터 체크
 			while (ix < d.length)
 			{
 
@@ -191,7 +205,7 @@ public class Chap5_Test_QueenEight_4회차 {
     public static boolean CheckMove(int[][]d, int x, int y) {//(x,y)로 이동 가능한지를 check
 
     }
-    public static boolean NextMove(int[][]d, int row, int col) {//다음 row에 대하여 이동할 col을 조사
+    public static int NextMove(int[][]d, int row, int col) {//다음 row에 대하여 이동할 col을 조사,  퀸을 배치할 col을 리턴
 
     	return true;
     }
