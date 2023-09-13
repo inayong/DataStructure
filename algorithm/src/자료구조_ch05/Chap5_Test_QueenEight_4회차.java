@@ -1,7 +1,5 @@
 package 자료구조_ch05;
 
-import 자료구조_ch04.Point2;
-
 //https://www.geeksforgeeks.org/n-queen-problem-backtracking-3/?ref=lbp
 //N Queen problem / backtracking
 /*
@@ -21,6 +19,7 @@ class Point {
 		ix = x;
 		iy = y;
 	}
+
 	@Override
 	public String toString() {
 		return "<" + ix + ", " + iy + ">";
@@ -33,6 +32,7 @@ class Point {
 	public int getY() {
 		return iy;
 	}
+
 	public void setX(int x) {
 		ix = x;
 	}
@@ -153,62 +153,110 @@ public class Chap5_Test_QueenEight_4회차 {
 		Stack3 st = new Stack3(10);
 		Point p = new Point(ix, iy);
 		d[ix][iy] = 1; // (ix,iy)에 queen을 배치
-		count++;//퀸 갯수를 증가
+		count++;// 퀸 갯수를 증가
 		st.push(p);
 		while (count < 8) {
-			ix++; //다음 행에 퀸을 시도	
+			ix++; // 다음 행에 퀸을 시도
 			int cy = 0; // 다음 행의 1열부터 체크
-			while (ix < d.length)
-			{
+			while (ix < d.length) {
 
 				while (cy < d[0].length) {
-
-						st.push(px); count++;
-						break;
-
+					st.push(px);
+					count++;
+					break;
 				}
 				if (cy != d[0].length) {
 					break;
 				} else {
-				 p = st.pop();	 count--;
-
-
-
+					p = st.pop();
+					count--;
 				}
-
-
 			}
-
 
 		}
 	}
 
-	public static boolean checkRow(int[][] d, int crow) {
+	public static boolean checkRow(int[][] d, int crow) { // 다음행 확인
+		for (int i = 0; i < d.length; i++) {
+			if (d[crow][i] == 1) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static boolean checkCol(int[][] d, int ccol) { // 다음열
+		for (int i = 0; i < d[0].length; i++) { // 8x8이라서 그냥 d.length해도 됨
+			if (d[i][ccol] == 1) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static boolean checkDiagSW(int[][] d, int cx, int cy) { // x++, y-- or x--, y++ where 0<= x,y <= 7
+		// 남서쪽
+		int x = cx; // 밑에 x++했으니깐 cx + 1안해도됨
+		int y = cy;
+
+		while (x >= 0 && y < d.length) { // length는 = 안들어가게
+			if (d[x][y] == 1) {
+				return false;
+			}
+			x++;
+			y--;
+		}
+
+		// 북동쪽
+		int x2 = cx;
+		int y2 = cy;
+
+		while (x2 >= 0 && y2 < d.length) {
+			if (d[x2][y2] == 1) {
+				return false;
+			}
+			x2--;
+			y2++;
+		}
+		return true;
+	}
+
+	public static boolean checkDiagSE(int[][] d, int cx, int cy) {// x++, y++ or x--, y--
+		// 북서쪽
+		int x = cx;
+		int y = cy;
+
+		while (x >= 0 && y < d.length) {
+			if (d[x][y] == 1) {
+				return false;
+			}
+			x--;
+			y--;
+		}
+
+		// 동남쪽
+		int a = cx;
+		int b = cy;
+
+		while (a >= 0 && b < d.length) {
+			if (d[a][b] == 1) {
+				return false;
+			}
+			a++;
+			b++;
+		}
+		return true;
+	}
+
+	public static boolean CheckMove(int[][] d, int x, int y) {// (x,y)로 이동 가능한지를 check
+
+	}
+
+	public static int NextMove(int[][] d, int row, int col) {// 다음 row에 대하여 이동할 col을 조사, 퀸을 배치할 col을 리턴
 
 		return true;
 	}
 
-	public static boolean checkCol(int[][] d, int ccol) {
-
-		return true;
-	}
-
-	public static boolean checkDiagSW(int[][] d, int cx, int cy) { //x++, y-- or x--, y++ where 0<= x,y <= 7
-
-		return true;
-	}
-
-	public static boolean checkDiagSE(int[][] d, int cx, int cy) {//x++, y++ or x--, y--
-
-		return true;
-	}
-    public static boolean CheckMove(int[][]d, int x, int y) {//(x,y)로 이동 가능한지를 check
-
-    }
-    public static int NextMove(int[][]d, int row, int col) {//다음 row에 대하여 이동할 col을 조사,  퀸을 배치할 col을 리턴
-
-    	return true;
-    }
 	public static void main(String[] args) {
 		int row = 8, col = 8;
 		int[][] data = new int[8][8];
@@ -226,5 +274,3 @@ public class Chap5_Test_QueenEight_4회차 {
 		}
 	}
 }
-
-
