@@ -146,7 +146,7 @@ class Stack3 {
 }
 
 public class Chap5_Test_QueenEight_4회차 {
-
+	
 	public static void SolveQueen(int[][] d) {
 		int count = 0, mode = 0;
 		int ix = 0, iy = 0;
@@ -161,7 +161,7 @@ public class Chap5_Test_QueenEight_4회차 {
 			while (ix < d.length) {
 
 				while (cy < d[0].length) {
-					st.push(px);
+					st.push(p);
 					count++;
 					break;
 				}
@@ -172,7 +172,6 @@ public class Chap5_Test_QueenEight_4회차 {
 					count--;
 				}
 			}
-
 		}
 	}
 
@@ -196,65 +195,61 @@ public class Chap5_Test_QueenEight_4회차 {
 
 	public static boolean checkDiagSW(int[][] d, int cx, int cy) { // x++, y-- or x--, y++ where 0<= x,y <= 7
 		// 남서쪽
-		int x = cx; // 밑에 x++했으니깐 cx + 1안해도됨
-		int y = cy;
-
-		while (x >= 0 && y < d.length) { // length는 = 안들어가게
-			if (d[x][y] == 1) {
+		while (cx >= 0 && cy < d.length) { // length는 = 안들어가게(배열이니까(0부터시작))
+			if (d[cx][cy] == 1) {
 				return false;
 			}
-			x++;
-			y--;
+			cx++;
+			cy--;
 		}
-
 		// 북동쪽
-		int x2 = cx;
-		int y2 = cy;
-
-		while (x2 >= 0 && y2 < d.length) {
-			if (d[x2][y2] == 1) {
+		while (cx >= 0 && cy < d.length) {
+			if (d[cx][cy] == 1) {
 				return false;
 			}
-			x2--;
-			y2++;
+			cx--;
+			cy++;
 		}
 		return true;
 	}
 
 	public static boolean checkDiagSE(int[][] d, int cx, int cy) {// x++, y++ or x--, y--
 		// 북서쪽
-		int x = cx;
-		int y = cy;
-
-		while (x >= 0 && y < d.length) {
-			if (d[x][y] == 1) {
+		while (cx >= 0 && cy < d.length) {
+			if (d[cx][cy] == 1) {
 				return false;
 			}
-			x--;
-			y--;
+			cx--;
+			cy--;
 		}
 
 		// 동남쪽
-		int a = cx;
-		int b = cy;
-
-		while (a >= 0 && b < d.length) {
-			if (d[a][b] == 1) {
+		while (cx >= 0 && cy < d.length) {
+			if (d[cx][cy] == 1) {
 				return false;
 			}
-			a++;
-			b++;
+			cx++;
+			cy++;
 		}
 		return true;
 	}
 
 	public static boolean CheckMove(int[][] d, int x, int y) {// (x,y)로 이동 가능한지를 check
-
+		// 행,열 확인말고 이동가능 여부..?
+		if (checkRow(d, x) && checkCol(d, y) && checkDiagSW(d, x, y) && checkDiagSE(d, x, y)) { // 호출
+			return true;
+		}
+		return false;
 	}
 
 	public static int NextMove(int[][] d, int row, int col) {// 다음 row에 대하여 이동할 col을 조사, 퀸을 배치할 col을 리턴
-
-		return true;
+		// row 고정 checkmove 부르고 return col
+		for (int i = 0; i < d.length; i++) {
+			if (CheckMove(d, row, col)) {
+				return col;
+			}
+		}
+		return -1;
 	}
 
 	public static void main(String[] args) {
