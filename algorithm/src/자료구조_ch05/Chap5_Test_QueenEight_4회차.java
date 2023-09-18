@@ -146,7 +146,7 @@ class Stack3 {
 }
 
 public class Chap5_Test_QueenEight_4회차 {
-	
+
 	public static void SolveQueen(int[][] d) {
 		int count = 0, mode = 0;
 		int ix = 0, iy = 0;
@@ -159,17 +159,26 @@ public class Chap5_Test_QueenEight_4회차 {
 			ix++; // 다음 행에 퀸을 시도
 			int cy = 0; // 다음 행의 1열부터 체크
 			while (ix < d.length) {
-
 				while (cy < d[0].length) {
-					st.push(p);
-					count++;
+					if (CheckMove(d, ix, cy)) { //debug
+						Point p1 = new Point(ix, cy); //true
+						st.push(p1); //stack 1,2...
+						count++;
+						break;
+					} else {
+						cy++;
+					}
 					break;
 				}
 				if (cy != d[0].length) {
 					break;
 				} else {
-					p = st.pop();
+					p = st.pop();//전에꺼pop
+					ix = p.getX();
+					cy = p.getY();
+					d[ix][cy] = 0;
 					count--;
+					cy++;
 				}
 			}
 		}
@@ -245,8 +254,8 @@ public class Chap5_Test_QueenEight_4회차 {
 	public static int NextMove(int[][] d, int row, int col) {// 다음 row에 대하여 이동할 col을 조사, 퀸을 배치할 col을 리턴
 		// row 고정 checkmove 부르고 return col
 		for (int i = 0; i < d.length; i++) {
-			if (CheckMove(d, row, col)) {
-				return col;
+			if (CheckMove(d, row, i)) {
+				return i;
 			}
 		}
 		return -1;
