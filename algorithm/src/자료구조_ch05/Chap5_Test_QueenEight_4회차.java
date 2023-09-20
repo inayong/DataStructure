@@ -155,37 +155,56 @@ public class Chap5_Test_QueenEight_4회차 {
 		d[ix][iy] = 1; // (ix,iy)에 queen을 배치
 		count++;// 퀸 갯수를 증가
 		st.push(p);
+		int total_count = 0;
 		while (count < 8) {
+			if (st.isEmpty()) {
+				System.out.println("총 " + total_count + "개");
+				break;
+			}
 			ix++; // 다음 행에 퀸을 시도
 			int cy = 0; // 다음 행의 1열부터 체크
+
 			while (ix < d.length) {
 				while (cy < d[0].length) {
-					if (CheckMove(d, ix, cy)) { //debug
-						Point p1 = new Point(ix, cy); //true
-						st.push(p1); //stack 1,2...
+					if (NextMove(d, ix, cy)) { // debug
+						d[ix][cy] = 1;
+						Point p1 = new Point(ix, cy); // true
+						st.push(p1); // stack 1,2...
 						count++;
 						break;
 					} else {
 						cy++;
 					}
-					break;
+//					break;
 				}
 				if (cy != d[0].length) {
+					if (count == 8) {
+						total_count++;
+						ShowQueen(d);
+						p = st.pop();
+						d[p.getX()][p.getY()] = 0;
+						cy = p.getY() + 1;
+						count--;
+
+						continue;
+					}
 					break;
 				} else {
-					p = st.pop();//전에꺼pop
+					if (ix == 0 && cy == 8 && st.isEmpty())
+						break;
+					p = st.pop();// 전에꺼pop
 					ix = p.getX();
-					cy = p.getY();
-					d[ix][cy] = 0;
+					cy = p.getY()+1;
+					d[p.getX()][p.getY()] = 0;
 					count--;
-					cy++;
+//					cy++;
 				}
 			}
 		}
 	}
 
 	public static boolean checkRow(int[][] d, int crow) { // 다음행 확인
-		for (int i = 0; i < d.length; i++) {
+		for (int i = 0; i < d[crow].length; i++) {
 			if (d[crow][i] == 1) {
 				return false;
 			}
@@ -194,7 +213,7 @@ public class Chap5_Test_QueenEight_4회차 {
 	}
 
 	public static boolean checkCol(int[][] d, int ccol) { // 다음열
-		for (int i = 0; i < d[0].length; i++) { // 8x8이라서 그냥 d.length해도 됨
+		for (int i = 0; i < d.length; i++) { // 8x8이라서 그냥 d.length해도 됨
 			if (d[i][ccol] == 1) {
 				return false;
 			}
@@ -204,41 +223,41 @@ public class Chap5_Test_QueenEight_4회차 {
 
 	public static boolean checkDiagSW(int[][] d, int cx, int cy) { // x++, y-- or x--, y++ where 0<= x,y <= 7
 		// 남서쪽
-		while (cx >= 0 && cy < d.length) { // length는 = 안들어가게(배열이니까(0부터시작))
-			if (d[cx][cy] == 1) {
+		for (int x = cx, y = cy; x <= 7 && y >= 0; x++, y--) { // length는 = 안들어가게(배열이니까(0부터시작))
+			if (d[x][y] == 1) {
 				return false;
 			}
-			cx++;
-			cy--;
+//			x++;
+//			y--;
 		}
 		// 북동쪽
-		while (cx >= 0 && cy < d.length) {
-			if (d[cx][cy] == 1) {
+		for (int x = cx, y = cy; x >= 0 && y <= 7; x--, y++) {
+			if (d[x][y] == 1) {
 				return false;
 			}
-			cx--;
-			cy++;
+//			x--;
+//			y++;
 		}
 		return true;
 	}
 
 	public static boolean checkDiagSE(int[][] d, int cx, int cy) {// x++, y++ or x--, y--
 		// 북서쪽
-		while (cx >= 0 && cy < d.length) {
-			if (d[cx][cy] == 1) {
+		for (int x = cx, y = cy; x >= 0 && y >= 0; x--, y--) {
+			if (d[x][y] == 1) {
 				return false;
 			}
-			cx--;
-			cy--;
+//			x--;
+//			y--;
 		}
 
 		// 동남쪽
-		while (cx >= 0 && cy < d.length) {
-			if (d[cx][cy] == 1) {
+		for (int x = cx, y = cy; x <= 7 && y <= 7; x++, y++) {
+			if (d[x][y] == 1) {
 				return false;
 			}
-			cx++;
-			cy++;
+//			x++;
+//			y++;
 		}
 		return true;
 	}
@@ -251,30 +270,31 @@ public class Chap5_Test_QueenEight_4회차 {
 		return false;
 	}
 
-	public static int NextMove(int[][] d, int row, int col) {// 다음 row에 대하여 이동할 col을 조사, 퀸을 배치할 col을 리턴
+	public static boolean NextMove(int[][] d, int row, int col) {// 다음 row에 대하여 이동할 col을 조사, 퀸을 배치할 col을 리턴
 		// row 고정 checkmove 부르고 return col
-		for (int i = 0; i < d.length; i++) {
-			if (CheckMove(d, row, i)) {
-				return i;
-			}
+		if (CheckMove(d, row, col)) {
+			return true;
 		}
-		return -1;
+		return false;
 	}
 
 	public static void main(String[] args) {
 		int row = 8, col = 8;
 		int[][] data = new int[8][8];
-		for (int i = 0; i < data.length; i++)
+		for (int i = 0; i < data.length; i++) // 체스판 초기화
 			for (int j = 0; j < data[0].length; j++)
 				data[i][j] = 0;
 
-		SolveQueen(data);
+		SolveQueen(data); // 결과 구하기
+	}
 
-		for (int[] element : data) {
+	public static void ShowQueen(int[][] data) {
+		for (int[] element : data) { // 결과 출력
 			for (int j = 0; j < data[0].length; j++) {
 				System.out.print(" " + element[j]);
 			}
 			System.out.println();
 		}
+		System.out.println();
 	}
 }
