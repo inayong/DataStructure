@@ -153,8 +153,14 @@ class Offsets3 {
 					}
 					if ((maze[g][h] == 0) && (mark[g][h] == 0)) { // new position
 //						mark[g][h] = 0;
+						mark[i][j] = 2; //지나옴
+						mark[g][h] = 1; //거쳐간곳을 1로?
+						//스택에 넣기, 되돌아가기 d+1, 
+						temp = new Items3(g, h, d);
+						st.push(temp);
 						g = i;
 						h = j;
+						d = 0; //다시 방향탐색
 						
 
 					} else
