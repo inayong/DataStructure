@@ -140,6 +140,7 @@ class Offsets3 {
 				int j = tmp.y;
 				int d = tmp.dir; //꺼낸거
 				mark[i][j] = 0;//backtracking 궤적은 1로 표시 //팝해놓은거
+				
 				while (d < 8) // moves forward //7까지
 				{//구현
 
@@ -156,17 +157,21 @@ class Offsets3 {
 						mark[i][j] = 2; //지나옴
 						mark[g][h] = 1; //거쳐간곳을 1로?
 						//스택에 넣기, 되돌아가기 d+1, 
-						temp = new Items3(g, h, d);
+						temp = new Items3(g, h, d+1);
 						st.push(temp);
-						g = i;
-						h = j;
+						i = g;
+						j = h;
 						d = 0; //다시 방향탐색
 						
-
-					} else
-						d++;
+//						st.pop();
+						
+					} else 
+						d++;						
+					
 				}
+
 			}
+			
 			System.out.println("no path in maze ");
 		}
 		static void showMatrix(int[][]d, int row, int col) {
@@ -211,12 +216,11 @@ class Offsets3 {
 			for (int i = 0; i < 14; i++) {
 				for (int j = 0; j < 17; j++) {
 				//input[12][15] => maze[14][17] (사방을 1로 막음)
-					if ((i==0) && (j==0) ) {
-						maze[i][j] = input[i-1][j-1];
-						
+					if (i==0 || i== 13 || j==0 || j==16) {
+						maze[i][j] = 1;
 					}
 					else
-						maze[i][j]=1;
+						maze[i][j] = input[i-1][j-1];
 
 				}
 			}

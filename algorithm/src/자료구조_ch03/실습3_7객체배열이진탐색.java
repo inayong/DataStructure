@@ -126,7 +126,7 @@ public class 실습3_7객체배열이진탐색 {
 		showData(arr);
 		*/
 		//*
-		Arrays.sort(arr, new Comparator<Fruit3>() {
+		Arrays.sort(arr, new Comparator<Fruit3>() { //익명클래스에 익명ㄱ객체 위 람다식이 이렇게 변화
 			@Override
 			public int compare(Fruit3 a1, Fruit3 a2) {
 				return a1.getPrice()-a2.getPrice();  //뭐로 정렬할것인가 (가격or네임
