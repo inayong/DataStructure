@@ -68,12 +68,12 @@ public class Chap6_Test_QuickSort {
 					swap(a, pl++, pr--);
 			} while (pl <= pr);
 			
-			if (pl < pr) {
-				st.push(pt);
+			if (p.getX() < pr) {
+				st.push(new Point(p.getX(), pr));
 			}
-//			if (pl < right) {
-//				st.push(pt);
-//			}
+			if (pl < p.getY()) {
+				st.push(new Point(pl, p.getY()));
+			}
 		}
 		
 
