@@ -65,8 +65,10 @@ class LinkedList1 {
 				tmp.next = p; //1번 처리 
 				if (q == null) {
 					first = tmp;
+					return;
 				} else
 					q.next = tmp; //link->tmp?
+					return;
 				//처음 중간 끝에 들어갈수있게 delete도 마찬가지
 			}
 			else
