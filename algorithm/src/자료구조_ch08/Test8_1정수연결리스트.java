@@ -30,19 +30,23 @@ class LinkedList1 {
 		Node1 p = first, q = null;
 		while (p != null) {
 			//if check 데이터같으면 삭제
-			if (p.data == element) {
+			if (element > p.data ) {
 				q = p;
 				p = p.next;
+			} else if (element == p.data) {
+				q.next = p.next;
+				return 1; //셩공
 			}
 			
+			
 		}
-		return element;
+		return 0; //실패
 	}
 
 	public void Show(int data) { // 전체 리스트를 순서대로 출력한다.
 		 Node1 p = first;
 		 while (p != null) {
-			 System.out.println("전체 리스트 : " + p);
+			 System.out.println("show : " + p.data);
 			 p= p.next;
 		 }
 	}
@@ -52,20 +56,38 @@ class LinkedList1 {
 		Node1 tmp = new Node1(element);
 		Node1 p = first, q = null;
 		while(p != null) {
-			if (p.data < element) {
+			if (element > p.data ) {
 				q = p;
 				p = p.next;
 			}
-			else {
-				tmp.next = p; //1번 처리
-				q.next = tmp; //link->tmp?
+			else if (element < p.data) { //add
+				
+				tmp.next = p; //1번 처리 
+				if (q == null) {
+					first = tmp;
+				} else
+					q.next = tmp; //link->tmp?
 				//처음 중간 끝에 들어갈수있게 delete도 마찬가지
 			}
+			else
+				return ;
 		}
-		first = tmp;
+		if (first == null)
+			first = tmp;
+		else 
+			q.next = tmp;
 	}
 
 	public boolean Search(int data) { // 전체 리스트를 순서대로 출력한다.
+		Node1 p = first;
+		while (p.data != data) {
+			if ( p.next == null	) {
+//				System.out.println("search : " + data);
+				return false;
+			}
+			p= p.next;
+		}
+//		System.out.println("search : " + data + "없음");
 		return true;
 	}
 }
@@ -137,9 +159,9 @@ public class Test8_1정수연결리스트 {
 				int n = sc.nextInt();
 				boolean result = l.Search(n);
 				if (!result)
-					System.out.println("검색 값 = " + n + "데이터가 없습니다.");
+					System.out.println("검색 값 = " + n + " 데이터가 없습니다.");
 				else
-					System.out.println("검색 값 = " + n + "데이터가 존재합니다.");
+					System.out.println("검색 값 = " + n + " 데이터가 존재합니다.");
 				break;
 			case Exit: // 꼬리 노드 삭제
 				break;
