@@ -91,28 +91,60 @@ class Tree {
 			root = new TreeNode(x);
 			return true;
 		}
-		TreeNode p = first;
-		while () {
+		TreeNode tmp = new TreeNode(x);
+		TreeNode p = root, q = null;
+		while (p != null) {
+			if (x == p.data) return false;
 			if (x > p.data) {
+				q = p;
 				p = p.RightChild;
 			}
 			else if (x < p.data) {
+				q = p;
 				p = p.LeftChild;
 			}
 		}
+		if (q.data < x) {
+			q.RightChild = tmp;
+		}
+		else {
+			q.LeftChild = tmp;
+		}
+		return false;
 	}
 
 	boolean delete(int num) {
-
-
+		TreeNode p = root, q = null;
+		while (p != null) {
+//			if (num > p.data) {
+//				q = p;
+//				p = p.RightChild;
+//			} else if (num < p.data) {
+//				q = p;
+//				p = p.LeftChild;
+//			} else 
+//				
+		}
+		
+		return false;
 	}
 
 	boolean search(int num) {
-
+		TreeNode p = root;
+		while (p != null) {
+			if (p.data == num) { 
+				return true;
+			} else if (num < p.data) {
+				p = p.LeftChild;
+			} else {
+				p = p.RightChild;
+			}
+		}
+		return false;
 	}
 }
 
-public class BinaryTree_int {
+public class Test_BinaryTree_int {
 	enum Menu {
 		Add("삽입"), Delete("삭제"), Search("검색"), InorderPrint("순차출력"), Exit("종료");
 

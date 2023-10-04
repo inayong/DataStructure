@@ -74,19 +74,63 @@ class LinkedList2 {
 
 	public int Delete(SimpleObject element, Comparator<SimpleObject> cc) //delete the element
 	{
-
+		Node2 p = first, q = null;
+		while (p != null) {
+			//if (p.data> element) => 정수버전
+			if (cc.compare(element, p.data) > 0) {
+				q = p;
+				p = p.link;
+			} 
+			else if (cc.compare(element, p.data) == 0) {
+				q.link = p.link;
+				return 1;
+			}
+		}
+		return 0;
 	}
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
-
+		Node2 p = first;
+		while (p != null) {
+			System.out.println("show : " + p.data);
+			p = p.link;
+		}
 	}
+	
 	public void Add(SimpleObject element, Comparator<SimpleObject> cc) //임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
 	{
-
+		Node2 tmp = new Node2(element);
+		Node2 p = first, q = null;
+		while (p != null) {
+			if (cc.compare(element, p.data) > 0) {
+				q = p;
+				p = p.link;
+			}
+			else if (cc.compare(element, p.data) < 0) {
+				tmp.link = p;
+				if (q == null) {
+					first = tmp;
+					return;
+				} else
+					q.link = tmp;
+					return;
+			} else
+				return;
+		}
+		if (first == null) first = tmp;
+		else q.link = tmp;
 	}
 	public boolean Search(SimpleObject element, Comparator<SimpleObject> cc) { // 전체 리스트를 순서대로 출력한다.
-
-	}
+		Node2 p = first;
+		 while (p != null) {
+		        if (cc.compare(p.data, element) == 0) { //같으면 true
+		            return true;
+		        }
+		        p = p.link;
+		    }
+		    return false;
+		}
 }
+
 public class Test8_2객체연결리스트 {
 
 	 enum Menu {
@@ -161,7 +205,7 @@ public class Test8_2객체연결리스트 {
 	            	 data.scanData("탐색", SimpleObject.NO);
 	                boolean result = l.Search(data, SimpleObject.NO_ORDER);
 	                    if (result)
-	                        System.out.println("검색 성공 = " + result );
+	                        System.out.println("검색 성공 = " + result);
 	                    else
 	                        System.out.println("검색 실패 = " + result);
 	                     break;
