@@ -153,6 +153,12 @@ class Tree4 {
 	}
 
 	public boolean add(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
+		
+		if (root == null) {
+			root = new TreeNode4(obj);
+			return true;
+		}
+		
 		TreeNode4 tmp = new TreeNode4(obj);
 		TreeNode4 p = root, q = null;
 		while (p != null) {

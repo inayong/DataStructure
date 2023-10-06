@@ -1,41 +1,138 @@
 package 자료구조_ch10;
 
 import java.util.Scanner;
+
 //체인법에 의한 해시
 //--- 해시를 구성하는 노드 ---//
-class Node {
-    int key;                 // 키값
-    Node next;        // 뒤쪽 포인터(뒤쪽 노드에 대한 참조)
+class Node { // 생성자만들기
+	int key; // 키값
+	Node next; // 뒤쪽 포인터(뒤쪽 노드에 대한 참조)
 
-    
+	public Node(int k) {
+		key = k;
+		next = null;
+	}
+
+	public int hashCode() {
+		return key % 13;
+	}
 }
-class SimpleChainHash {
- private int    size;              // 해시 테이블의 크기
- private Node[] table;        // 해시 테이블
 
- 
 
- //--- 키값이 key인 요소를 검색(데이터를 반환) ---//
- public int search(int key) {
+class SimpleChainHash { // 생성자만들기
+	private int size; // 해시 테이블의 크기
+	private Node[] table; // 해시 테이블
 
- }
+	public SimpleChainHash(int s) {
+		try {
+			size = s;
+			table = new Node[s];			
+		}
+		catch (OutOfMemoryError e) {
+			size = 0;
+		}
+	}
+	
+	public int hashValue(Object key) {
+		return key.hashCode() % size;
+	}
+	
+	
 
- //--- 키값이 key인 데이터를 data의 요소로 추가 ---//
- public int add(int key) {
+	// --- 키값이 key인 요소를 검색(데이터를 반환) ---//
+	public int search(int key) {
+		int hash = hashValue(key);
+		Node p = table[hash];
+		
+//		while (p != null) {
+//			if (p.key == key)
+//				return hash; //return 1?
+//			p = p.next;
+//		}
+		while (p.key != key) {
+			if ( p.next == null) {
+				return 0;
+			}
+			p = p.next;
+		}
+		return 1;
+	}
 
- }
+//--- 키값이 key인 데이터를 data의 요소로 추가 ---//
+	public int add(int key) {
+		int hash = hashValue(key);
+		Node p = table[hash];
+		Node q = null;
+		Node temp = new Node(key);
+		
+		while (p != null) {
+			if (key > p.key) {
+				q = p;
+				p = p.next;
+			}
+			else if (key < p.key) {
+				temp.next = p;
+				if ( q == null ) {
+					table[hash] = temp;
+					return 1 ;
+				} else
+					q.next = temp;
+					return 1;
+			}
+			else 
+				return 1;
+		}
+		if (table[hash] == null)
+			table[hash] = temp;
+		else
+			q.next = temp;
+		
+		return 0;
+		
+	}
 
- //--- 키값이 key인 요소를 삭제 ---//
- public int delete(int key) {
+	// --- 키값이 key인 요소를 삭제 ---//
+	public int delete(int key) {
+		int hash = hashValue(key);
+		Node p = table[hash];
+		Node q = null;
+		
+		while (p != null) {
+			if (p.key == key) {
+				if (q == null)
+					table[hash] = p.next;
+				else
+					q.next = p.next;
+				return 1;
+			}
+			q = p;
+			p = p.next;
+		}
+		
+		return 0;
+	}
 
- }
-
- //--- 해시 테이블을 덤프(dump) ---//
- public void dump() {
-
- }
+	// --- 해시 테이블을 덤프(dump) ---//
+	public void dump() {
+		for (int i = 0; i < size; i++) {
+			Node p = table[i];
+			System.out.printf("%2d ", i);
+			while (p != null) {
+				System.out.printf(p.key + " ");
+				p = p.next;
+			}
+			System.out.println();
+		}
+	}
 }
+
 public class Test_실습10_1정수체인해시 {
+
+	@Override
+	public String toString() {
+		return "Test_실습10_1정수체인해시 [getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
+	}
 
 	enum Menu {
 		Add("삽입"), Delete("삭제"), Search("검색"), Show("출력"), Exit("종료");
@@ -57,26 +154,26 @@ public class Test_실습10_1정수체인해시 {
 			return message;
 		}
 	}
-		// --- 메뉴 선택 ---//
-		static Menu SelectMenu() {
-			Scanner sc = new Scanner(System.in);
-			int key;
-			do {
-				for (Menu m : Menu.values()) {
-					System.out.printf("(%d) %s  ", m.ordinal(), m.getMessage());
-					if ((m.ordinal() % 3) == 2 && m.ordinal() != Menu.Exit.ordinal())
-						System.out.println();
-				}
-				System.out.print(" : ");
-				key = sc.nextInt();
-			} while (key < Menu.Add.ordinal() || key > Menu.Exit.ordinal());
-			return Menu.MenuAt(key);
-		}
 
+	// --- 메뉴 선택 ---//
+	static Menu SelectMenu() {
+		Scanner sc = new Scanner(System.in);
+		int key;
+		do {
+			for (Menu m : Menu.values()) {
+				System.out.printf("(%d) %s  ", m.ordinal(), m.getMessage());
+				if ((m.ordinal() % 3) == 2 && m.ordinal() != Menu.Exit.ordinal())
+					System.out.println();
+			}
+			System.out.print(" : ");
+			key = sc.nextInt();
+		} while (key < Menu.Add.ordinal() || key > Menu.Exit.ordinal());
+		return Menu.MenuAt(key);
+	}
 
 //체인법에 의한 해시 사용 예
- public static void main(String[] args) {
-	 	Menu menu;
+	public static void main(String[] args) {
+		Menu menu;
 		SimpleChainHash hash = new SimpleChainHash(11);
 		Scanner stdIn = new Scanner(System.in);
 		int select = 0, result = 0, val = 0;
@@ -102,7 +199,7 @@ public class Test_실습10_1정수체인해시 {
 				val = stdIn.nextInt();
 				result = hash.delete(val);
 				if (result == 1)
-					System.out.println(" 검색 데이터가 존재한다");
+					System.out.println(" 검색 데이터가 존재");
 				else
 					System.out.println(" 검색 데이터가 없음");
 				System.out.println();
@@ -120,9 +217,9 @@ public class Test_실습10_1정수체인해시 {
 
 			case Show:
 				hash.dump();
-			break;
-		}
-	} while (menu != Menu.Exit);
+				break;
+			}
+		} while (menu != Menu.Exit);
 
 	}
 }
