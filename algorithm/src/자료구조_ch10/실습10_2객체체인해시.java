@@ -241,7 +241,7 @@ public class 실습10_2객체체인해시 {
 				data.scanData("검색", SimpleObject5.NO);
 				result = hash.search(data, SimpleObject5.NO_ORDER);
 				if (result == 1)
-					System.out.println(" 검색 데이터가 존재한다");
+					System.out.println(" 검색 데이터가 존재한다 : ");
 				else
 					System.out.println(" 검색 데이터가 없음");
 				break;

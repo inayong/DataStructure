@@ -25,6 +25,7 @@ class OpenHash2 {
 		void set(int d, Status stat) {
 			this.data = d;
 			this.stat = stat; 
+//			System.out.println("thisdata=" + this.data + "stat = " + stat);
 		}
 		
 		void setStat(Status stat) {
@@ -42,14 +43,15 @@ class OpenHash2 {
 //--- 생성자(constructor) ---//
 public OpenHash2(int s) {
 	try {
+		size = s;
 		table = new Bucket[size];
 		for (int i = 0; i < size; i++)
-			table[i] = new Bucket();
-		this.size = s;
+			table[i] = new Bucket();		
 	}
 	catch (OutOfMemoryError e) {
 		this.size = 0;
 	}
+
 }
 
 //--- 해시값을 구함 ---//
@@ -65,7 +67,7 @@ public OpenHash2(int s) {
 //--- 키값 key를 갖는 버킷 검색 ---//
 	private Bucket searchNode(int key) {
 		int hash = hashValue(key);
-		System.out.println("hash : " + hash);
+//		System.out.println("hash : " + hash);
 		Bucket p = table[hash];
 		
 		for (int i = 0; p.stat != Status.EMPTY && i < size; i++) {
@@ -81,33 +83,35 @@ public OpenHash2(int s) {
 	public int search(int key) {
 		Bucket p = searchNode(key);
 		if (p != null)
-			return p.data;
+			return 1;
 		else 
 			return 0;
 	}
 
 //--- 키값이 key인 데이터를 data의 요소로 추가 ---//
 	public int add(int data) {
-		if (search(data) == 0 )
-			return 1;
-		
+		if (search(data) == 1) //위에 리턴 1!!!
+			return 0;
+//		System.out.println("size = " + size);
 		int hash = hashValue(data);
 		Bucket p = table[hash];
-		for (int i = 0; i <size; i++) {
+		for (int i = 0; i < size; i++) {
+//			System.out.println("hash=" + hash );
+//			System.out.println("p.stat=" + p.stat);
 			if (p.stat == Status.EMPTY || p.stat == Status.DELETED) {
 				p.set(data, Status.OCCUPIED);
-				return 0;
+				return 1;
 			}
 			hash = rehashValue(hash);
 			p = table[hash];
 		}
-		return 2;
+		return 0;
 	}
 
 //--- 키값이 key인 요소를 삭제 ---//
 	public int remove(int key) {
 		Bucket p = searchNode(key);
-		if ( p == null)
+		if (p == null)
 			return 1;
 		
 		p.setStat(Status.DELETED);
@@ -216,7 +220,7 @@ public class 실습10_3정수오픈해시 {
 				val = stdIn.nextInt();
 				result = hash.search(val);
 				if (result != 0)
-					System.out.println(" 검색 데이터가 존재한다");
+					System.out.println(" 검색 데이터가 존재");
 				else
 					System.out.println(" 검색 데이터가 없음");
 				System.out.println();
